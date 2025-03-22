@@ -1,8 +1,34 @@
-import { Box, Card, Center, FileUpload, Heading, Icon } from "@chakra-ui/react";
+import { Box, Button, Card, Center, DialogFooter, FileUpload, Heading, Icon } from "@chakra-ui/react";
 import { LuUpload } from "react-icons/lu";
+import { useState } from "react";
+import FileUploadByUserId from "../../api/fileUpload/fileUploadByUserId";
 
 const MainPage = () => {
-    return (
+    const token = ""
+    const [files, setFiles] = useState<File[]>([]);
+
+    const handleFileUpload = (file: File) => {
+        if (file.size > 3 * 1024 * 1024 * 1024) {
+            alert("최대 3GB의 파일만 업로드 가능합니다.");
+            return;
+        }
+        if (files.length >= 10) {
+            alert("최대 10개의 파일만 업로드 가능합니다.");
+            return;
+        }
+        setFiles([...files, file]);
+    }
+
+    const requestFileUpload = async () => {
+        try {
+            const response = await FileUploadByUserId(files, token);
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    return (    
         <Center w="100%" h="100%">
             <Card.Root w="800px" variant={"elevated"}>
                 <Card.Header>
@@ -11,7 +37,7 @@ const MainPage = () => {
                     </Center>
                 </Card.Header>
                 <Card.Body>
-                    <FileUpload.Root alignItems="stretch" maxFiles={10}>
+                    <FileUpload.Root alignItems="stretch" maxFiles={10} onFileChange={(details) => handleFileUpload(details.acceptedFiles[0])}>
                         <FileUpload.HiddenInput />
                         <FileUpload.Dropzone>
                             <Icon size="md" color="fg.muted">
@@ -25,6 +51,13 @@ const MainPage = () => {
                         <FileUpload.List />
                     </FileUpload.Root>
                 </Card.Body>
+                <Button
+                        variant={"subtle"}
+                        colorPalette={"black"}
+                        onClick={() => requestFileUpload()}
+                    >
+                        업로드
+                    </Button>
             </Card.Root>
         </Center>
     );
