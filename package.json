@@ -12,12 +12,17 @@
   "dependencies": {
     "@chakra-ui/react": "^3.13.0",
     "@emotion/react": "^11.14.0",
+    "@nikolovlazar/chakra-ui-prose": "^1.2.1",
     "axios": "^1.8.4",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.4.0"
+    "react-markdown": "^10.1.0",
+    "react-prose": "^1.0.0-0",
+    "react-router-dom": "^7.4.0",
+    "react-type-animation": "^3.2.0",
+    "rehype-raw": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

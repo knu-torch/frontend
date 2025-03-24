@@ -1,7 +1,7 @@
 import { Box, Button, Card, Center, DialogFooter, FileUpload, Heading, Icon } from "@chakra-ui/react";
 import { LuUpload } from "react-icons/lu";
 import { useState } from "react";
-import FileUploadByUserId from "../../api/fileUpload/fileUploadByUserId";
+import FileUploadByUserId from "../../api/fileUpload/postFileByUserId";
 
 const MainPage = () => {
     const token = ""
@@ -9,11 +9,11 @@ const MainPage = () => {
 
     const handleFileUpload = (file: File) => {
         if (file.size > 3 * 1024 * 1024 * 1024) {
-            alert("최대 3GB의 파일만 업로드 가능합니다.");
+            alert("");
             return;
         }
         if (files.length >= 10) {
-            alert("최대 10개의 파일만 업로드 가능합니다.");
+            alert("");
             return;
         }
         setFiles([...files, file]);
