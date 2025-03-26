@@ -2,32 +2,42 @@ import { Box, Button, Card, Center, DialogFooter, FileUpload, Heading, Icon, Che
 import { LuUpload } from "react-icons/lu";
 import { useState } from "react";
 import FileUploadByUserId from "../../api/fileUpload/postFileByUserId";
-import { CheckList, CheckListMap } from "../../config/CheckList";
-import { Checkbox } from "../../components/ui/checkbox";
-
+import { useNavigate } from "react-router-dom";
+import CheckLists from "../../config/CheckLists";
+import { CheckboxCard as ChakraCheckboxCard } from "../../components/ui/checkbox-card";
+import CheckElementList from "../../types/checkElementList";
+import Default from "../../config/Default";
+import postSelectedElementByRequestId from "../../api/result/postSelectedElmentByRequestId";
+import { Checkbox } from "~/components/ui/checkbox";
 const MainPage = () => {
     const token = ""
     const [files, setFiles] = useState<File[]>([]);
-
-    const handleFileUpload = (file: File) => {
-        if (file.size > 3 * 1024 * 1024 * 1024) {
-            alert("");
-            return;
-        }
-        if (files.length >= 10) {
-            alert("");
-            return;
-        }
-        setFiles([...files, file]);
-    }
-
+    const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
+    const [requestId, setRequestId] = useState<string>("");
+    const navigate = useNavigate();
     const requestFileUpload = async () => {
+        setRequestId("1234");
         try {
-            const response = await FileUploadByUserId(files, token);
-            console.log(response);
+            const requestId = await postSelectedElementByRequestId(files, checkElementList);
+            setRequestId(requestId);
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const handleFileUpload = (file: File) => {
+        setFiles([...files, file]);
+    }
+
+    const handleCheckElementList = (details: string[]) => {
+        console.log(details);
+        const newCheckElementList = CheckLists
+            .filter(checkList => details.includes(checkList.id.toString()))
+            .map(checkList => ({
+                id: checkList.id.toString(),
+                value: checkList.value
+            }));
+        setCheckElementList(newCheckElementList);
     }
 
     return (
@@ -53,36 +63,121 @@ const MainPage = () => {
                         <FileUpload.List />
                     </FileUpload.Root>
                 </Card.Body>
-                <Card.Footer w="full">
-                    <CheckboxGroup w="full">
-                        <Grid 
-                            templateColumns="repeat(3, 1fr)"
-                            gap="3"
-                            w="full"
+                <Card.Footer flexDirection="column" w="full" gap="10">
+                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
+                        <CheckboxGroup w="full"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
                         >
-                            {Object.values(CheckList).map((checkList) => (
-                                <CheckboxCard.Root key={checkList} value={checkList}>
-                                    <CheckboxCard.HiddenInput />
-                                    <CheckboxCard.Control>
-                                        <CheckboxCard.Content>
-                                            <CheckboxCard.Label>{CheckListMap[checkList].title}</CheckboxCard.Label>
-                                            <CheckboxCard.Description>
-                                                {CheckListMap[checkList].description}
-                                            </CheckboxCard.Description>
-                                        </CheckboxCard.Content>
-                                        <CheckboxCard.Indicator />
-                                    </CheckboxCard.Control>
-                                </CheckboxCard.Root>
-                            ))}
-                        </Grid>
-                    </CheckboxGroup>
+                            <Checkbox>
+                                {checkElementList.map((checkElement) => checkElement.value)}
+                            </Checkbox>
+                        </CheckboxGroup>
+                        <CheckboxGroup w="100%"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
+                                {CheckLists.map((checkList, index) => (
+                                    <Checkbox key={checkList.id}
+                                        value={(checkList.id).toString()}
+                                    >
+                                        {checkList.value}
+                                    </Checkbox>
+                                ))}
+                            </Grid>
+                        </CheckboxGroup>
+                    </Grid>
+                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
+                        <CheckboxGroup w="full"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Checkbox>
+                                {checkElementList.map((checkElement) => checkElement.value)}
+                            </Checkbox>
+                        </CheckboxGroup>
+                        <CheckboxGroup w="100%"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
+                                {CheckLists.map((checkList, index) => (
+                                    <Checkbox  key={checkList.id}
+                                        value={(checkList.id).toString()}
+                                    >
+                                        {checkList.value}
+                                    </Checkbox>
+                                ))}
+                            </Grid>
+                        </CheckboxGroup>
+                    </Grid>
+                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
+                        <CheckboxGroup w="full"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Checkbox>
+                                {checkElementList.map((checkElement) => checkElement.value)}
+                            </Checkbox>
+                        </CheckboxGroup>
+                        <CheckboxGroup w="100%"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
+                                {CheckLists.map((checkList, index) => (
+                                    <Checkbox key={checkList.id}
+                                        value={(checkList.id).toString()}
+                                    >
+                                        {checkList.value}
+                                    </Checkbox>
+                                ))}
+                            </Grid>
+                        </CheckboxGroup>
+                    </Grid>
+                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
+                        <CheckboxGroup w="full"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Checkbox>
+                                {checkElementList.map((checkElement) => checkElement.value)}
+                            </Checkbox>
+                        </CheckboxGroup>
+                        <CheckboxGroup w="100%"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                        >
+                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
+                                {CheckLists.map((checkList, index) => (
+                                    <Checkbox key={checkList.id}
+                                        value={(checkList.id).toString()}
+                                    >
+                                        {checkList.value}
+                                    </Checkbox>
+                                ))}
+                            </Grid>
+                        </CheckboxGroup>
+                    </Grid>
                 </Card.Footer>
                 <Button
                     variant={"subtle"}
                     colorPalette={"black"}
-                    onClick={() => requestFileUpload()}
+                    onClick={() => {
+                        requestFileUpload()
+                    }}
                 >
                     업로드
+                </Button>
+                <Button
+                    variant={"subtle"}
+                    colorPalette={"black"}
+                    onClick={() => {
+                        navigate(`/${requestId}/result`)
+                    }}
+                >
+                    결과 보기
                 </Button>
             </Card.Root>
         </Center>

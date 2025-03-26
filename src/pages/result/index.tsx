@@ -4,7 +4,7 @@ import FileUploadByUserId from "../../api/fileUpload/postFileByUserId";
 import Markdown from "react-markdown";
 import { Prose } from "../../components/ui/prose";
 import { useParams } from "react-router-dom";
-import getResultByRequestId from "../../api/result/getResultByRequestId";
+import getResultByRequestId from "../../api/result/postSelectedElmentByRequestId";
 
 const ResultPage = () => {
     const token = 'fwefwef'
@@ -70,8 +70,9 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
     const Init = useCallback(async () => {
         try {
             setIsLoading(true);
-            if (token) {
-                const result = await getResultByRequestId(parseInt(requestId || '0'), token);
+            setContent(sampleText + sampleText + sampleText + sampleText);
+            if (requestId) {
+                // const result = await getResultByRequestId(parseInt(requestId || '0'), token);
                 // setContent(sampleText);
                 console.log(content);
             }

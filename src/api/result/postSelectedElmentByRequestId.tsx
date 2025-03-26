@@ -1,22 +1,25 @@
 import FileUpload from "../../types/fileUpload";
-import axios , { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import Config from "../../config/Config";
+import CheckElementList from "../../types/checkElementList";
 
-
-const FileUploadByUserId = async (files: File[]) : Promise<string> => {
+const postSelectedElementByRequestId = async (files:File[], checkElementList: CheckElementList[]): Promise<string> => {
     try {
         const body = new FormData();
         files.forEach((file) => {
             body.append("file", file);
         });
-    
+        body.append("checkElementList", JSON.stringify(checkElementList));
+        console.log(body);
         const response = await axios.post(
-            `${Config.API.Server}/fileUpload`,
-            body
+            `${Config.API.Server}/result`,
+            {
+                body
+            }
         );
-    
+
         const data = await response.data;
-    
+
         return data;
     } catch (error) {
         if (error instanceof AxiosError) {
@@ -26,5 +29,5 @@ const FileUploadByUserId = async (files: File[]) : Promise<string> => {
     }
 }
 
-export default FileUploadByUserId;
+export default postSelectedElementByRequestId;
 
