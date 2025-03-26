@@ -1,4 +1,4 @@
-import { Box, Button, Card, Center, DialogFooter, FileUpload, Heading, Icon, CheckboxGroup, CheckboxCard, Flex, Grid } from "@chakra-ui/react";
+import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Flex, Grid, Table, Text,Separator } from "@chakra-ui/react";
 import { LuUpload } from "react-icons/lu";
 import { useState } from "react";
 import FileUploadByUserId from "../../api/fileUpload/postFileByUserId";
@@ -10,7 +10,6 @@ import Default from "../../config/Default";
 import postSelectedElementByRequestId from "../../api/result/postSelectedElmentByRequestId";
 import { Checkbox } from "~/components/ui/checkbox";
 const MainPage = () => {
-    const token = ""
     const [files, setFiles] = useState<File[]>([]);
     const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
     const [requestId, setRequestId] = useState<string>("");
@@ -63,45 +62,16 @@ const MainPage = () => {
                         <FileUpload.List />
                     </FileUpload.Root>
                 </Card.Body>
-                <Card.Footer flexDirection="column" w="full" gap="10">
-                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
-                        <CheckboxGroup w="full"
+                <Card.Footer flexDirection="column" w="full">
+                    <Flex ml="5%" w="full" flexDirection="Row" gap="12">
+                        <Text w="12%">코드 품질</Text>
+                        <Separator orientation="vertical" />
+                        <CheckboxGroup w="90%"
                             value={checkElementList.map((checkElement) => checkElement.id.toString())}
                             onValueChange={handleCheckElementList}
+                            flexDirection="Row"
+                            gap="12"
                         >
-                            <Checkbox>
-                                {checkElementList.map((checkElement) => checkElement.value)}
-                            </Checkbox>
-                        </CheckboxGroup>
-                        <CheckboxGroup w="100%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                        >
-                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
-                                {CheckLists.map((checkList, index) => (
-                                    <Checkbox key={checkList.id}
-                                        value={(checkList.id).toString()}
-                                    >
-                                        {checkList.value}
-                                    </Checkbox>
-                                ))}
-                            </Grid>
-                        </CheckboxGroup>
-                    </Grid>
-                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
-                        <CheckboxGroup w="full"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                        >
-                            <Checkbox>
-                                {checkElementList.map((checkElement) => checkElement.value)}
-                            </Checkbox>
-                        </CheckboxGroup>
-                        <CheckboxGroup w="100%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                        >
-                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
                                 {CheckLists.map((checkList, index) => (
                                     <Checkbox  key={checkList.id}
                                         value={(checkList.id).toString()}
@@ -109,57 +79,65 @@ const MainPage = () => {
                                         {checkList.value}
                                     </Checkbox>
                                 ))}
-                            </Grid>
                         </CheckboxGroup>
-                    </Grid>
-                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
-                        <CheckboxGroup w="full"
+                    </Flex>
+                    <Separator w="full" orientation="horizontal" />
+                    <Flex marginTop="0px" ml="5%" w="full" flexDirection="Row" gap="12">
+                        <Text w="12%">코드 품질</Text>
+                        <Separator orientation="vertical" />
+                        <CheckboxGroup w="90%"
                             value={checkElementList.map((checkElement) => checkElement.id.toString())}
                             onValueChange={handleCheckElementList}
+                            flexDirection="Row"
+                            gap="12"
                         >
-                            <Checkbox>
-                                {checkElementList.map((checkElement) => checkElement.value)}
-                            </Checkbox>
-                        </CheckboxGroup>
-                        <CheckboxGroup w="100%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                        >
-                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
                                 {CheckLists.map((checkList, index) => (
-                                    <Checkbox key={checkList.id}
+                                    <Checkbox  key={checkList.id}
                                         value={(checkList.id).toString()}
                                     >
                                         {checkList.value}
                                     </Checkbox>
                                 ))}
-                            </Grid>
                         </CheckboxGroup>
-                    </Grid>
-                    <Grid ml="20px" templateColumns="repeat(1, 1fr)" gap="5" w="100%">
-                        <CheckboxGroup w="full"
+                    </Flex>
+                    <Separator w="full" orientation="horizontal" />
+                    <Flex ml="5%" w="full" flexDirection="Row" gap="12">
+                        <Text w="12%">코드 품질</Text>
+                        <Separator orientation="vertical" />
+                        <CheckboxGroup w="90%"
                             value={checkElementList.map((checkElement) => checkElement.id.toString())}
                             onValueChange={handleCheckElementList}
+                            flexDirection="Row"
+                            gap="12"
                         >
-                            <Checkbox>
-                                {checkElementList.map((checkElement) => checkElement.value)}
-                            </Checkbox>
-                        </CheckboxGroup>
-                        <CheckboxGroup w="100%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                        >
-                            <Grid templateColumns="repeat(4, 1fr)" gap="3" w="100%">
                                 {CheckLists.map((checkList, index) => (
-                                    <Checkbox key={checkList.id}
+                                    <Checkbox  key={checkList.id}
                                         value={(checkList.id).toString()}
                                     >
                                         {checkList.value}
                                     </Checkbox>
                                 ))}
-                            </Grid>
                         </CheckboxGroup>
-                    </Grid>
+                    </Flex>
+                    <Separator w="full" orientation="horizontal" />
+                    <Flex ml="5%" w="full" flexDirection="Row" gap="12">
+                        <Text w="12%">코드 품질</Text>
+                        <Separator orientation="vertical" />
+                        <CheckboxGroup w="90%"
+                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                            onValueChange={handleCheckElementList}
+                            flexDirection="Row"
+                            gap="12"
+                        >
+                                {CheckLists.map((checkList, index) => (
+                                    <Checkbox  key={checkList.id}
+                                        value={(checkList.id).toString()}
+                                    >
+                                        {checkList.value}
+                                    </Checkbox>
+                                ))}
+                        </CheckboxGroup>
+                    </Flex>
                 </Card.Footer>
                 <Button
                     variant={"subtle"}
@@ -170,7 +148,7 @@ const MainPage = () => {
                 >
                     업로드
                 </Button>
-                <Button
+                {/* <Button
                     variant={"subtle"}
                     colorPalette={"black"}
                     onClick={() => {
@@ -178,7 +156,7 @@ const MainPage = () => {
                     }}
                 >
                     결과 보기
-                </Button>
+                </Button> */}
             </Card.Root>
         </Center>
     );

@@ -18,12 +18,6 @@ const CheckLists = [
         label: "클래스별 요약",
         description: "클래스별 요약"
     },
-    {
-        id: 4,
-        value: "FunctionSummary",
-        label: "함수 요약",
-        description: "함수 요약"
-    },
 ]
 
 
