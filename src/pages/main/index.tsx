@@ -1,24 +1,31 @@
-import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Flex, Grid, Table, Text,Separator } from "@chakra-ui/react";
-import { LuUpload } from "react-icons/lu";
+import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Flex, Text, Separator, ButtonGroup, Group, Input, Tabs } from "@chakra-ui/react";
+import { LuUpload, LuUser, LuFolder, LuSquareCheck } from "react-icons/lu";
 import { useState } from "react";
-import FileUploadByUserId from "../../api/fileUpload/postFileByUserId";
 import { useNavigate } from "react-router-dom";
 import CheckLists from "../../config/CheckLists";
-import { CheckboxCard as ChakraCheckboxCard } from "../../components/ui/checkbox-card";
 import CheckElementList from "../../types/checkElementList";
 import Default from "../../config/Default";
 import postSelectedElementByRequestId from "../../api/result/postSelectedElmentByRequestId";
 import { Checkbox } from "~/components/ui/checkbox";
+import React from "react";
+import { ButtonMode } from "../../types/ButtonMode";
+import Confirm from "../confirm";
 const MainPage = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
-    const [requestId, setRequestId] = useState<string>("");
+    const [mode, setMode] = useState<ButtonMode>("upload");
     const navigate = useNavigate();
+    const [requestId, setRequestId] = useState<string>("");
+    const [initId, setInitId] = useState<string>("");
+    
     const requestFileUpload = async () => {
-        setRequestId("1234");
+        setInitId("1234");
         try {
-            const requestId = await postSelectedElementByRequestId(files, checkElementList);
-            setRequestId(requestId);
+            const requestId = "await postSelectedElementByRequestId(files, checkElementList);"
+            setInitId(requestId);
+            setTimeout(() => {
+                setInitId("wffwefwfef");
+            }, 3000);
         } catch (error) {
             console.error(error);
         }
@@ -39,126 +46,105 @@ const MainPage = () => {
         setCheckElementList(newCheckElementList);
     }
 
-    return (
+    return initId === "" ? (
         <Center w="100%" h="100%">
-            <Card.Root w="800px" variant={"elevated"}>
-                <Card.Header>
-                    <Center>
-                        <Heading>프로젝트 업로드</Heading>
-                    </Center>
-                </Card.Header>
-                <Card.Body>
-                    <FileUpload.Root alignItems="stretch" maxFiles={10} onFileChange={(details) => handleFileUpload(details.acceptedFiles[0])}>
-                        <FileUpload.HiddenInput />
-                        <FileUpload.Dropzone>
-                            <Icon size="md" color="fg.muted">
-                                <LuUpload />
-                            </Icon>
-                            <FileUpload.DropzoneContent>
-                                <Box>Drag and drop files here</Box>
-                                <Box color="fg.muted">.zip up to 3GB</Box>
-                            </FileUpload.DropzoneContent>
-                        </FileUpload.Dropzone>
-                        <FileUpload.List />
-                    </FileUpload.Root>
-                </Card.Body>
-                <Card.Footer flexDirection="column" w="full">
-                    <Flex ml="5%" w="full" flexDirection="Row" gap="12">
-                        <Text w="12%">코드 품질</Text>
-                        <Separator orientation="vertical" />
-                        <CheckboxGroup w="90%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                            flexDirection="Row"
-                            gap="12"
-                        >
-                                {CheckLists.map((checkList, index) => (
-                                    <Checkbox  key={checkList.id}
-                                        value={(checkList.id).toString()}
-                                    >
-                                        {checkList.value}
-                                    </Checkbox>
+            <Box>
+                <ButtonGroup m="10px" ml="0px" size="lg" variant="outline">
+                    <Tabs.Root defaultValue="upload" variant="plain" onValueChange={(details) => {
+                        console.log(details);
+                        setMode(details.value as ButtonMode);
+                        console.log(mode);
+                    }}>
+                        <Tabs.List bg="bg.muted" rounded="l3" p="1">
+                            <Tabs.Trigger value="upload">
+                                <LuUser />
+                                파일 업로드
+                            </Tabs.Trigger>
+                            <Tabs.Trigger value="result">
+                                <LuFolder />
+                                결과 창보기(요청 아이디)
+                            </Tabs.Trigger>
+                            <Tabs.Indicator rounded="l2" />
+                        </Tabs.List>
+                    </Tabs.Root>
+                </ButtonGroup>
+                <Card.Root w="800px" variant={"elevated"}>
+                    <Card.Header>
+                        <Center>
+                            {mode === "upload" ? <Heading>프로젝트 업로드</Heading> : <Heading>결과 창보기(토큰 입력)</Heading>}
+                        </Center>
+                    </Card.Header>
+                    {mode === "upload" ? (
+                        <Card.Body>
+                            <FileUpload.Root alignItems="stretch" maxFiles={10} onFileChange={(details) => handleFileUpload(details.acceptedFiles[0])}>
+                                <FileUpload.HiddenInput />
+                                <FileUpload.Dropzone>
+                                    <Icon size="md" color="fg.muted">
+                                        <LuUpload />
+                                    </Icon>
+                                    <FileUpload.DropzoneContent>
+                                        <Box>Drag and drop files here</Box>
+                                        <Box color="fg.muted">.zip up to 3GB</Box>
+                                    </FileUpload.DropzoneContent>
+                                </FileUpload.Dropzone>
+                                <FileUpload.List />
+                            </FileUpload.Root>
+                        </Card.Body>
+                    ) : (
+                        <Card.Body p="50px">
+                            <Center>
+                                <Group attached w="full" maxW="lg">
+                                    <Input flex="" placeholder="Enter your request Token" onChange={(e) => setRequestId(e.target.value)} />
+                                    <Button onClick={() => {
+                                        navigate(`/${requestId}/result`);
+                                    }} ml="10px" bg="bg.subtle" variant="outline">
+                                        결과 창 보기
+                                    </Button>
+                                </Group>
+                            </Center>
+                        </Card.Body>
+                    )}
+                    {mode === "upload" && (
+                        <>
+                            <Card.Footer flexDirection="column" w="full">
+                                {Array.from({ length: 4 }).map((_, index) => (
+                                    <React.Fragment key={index}>
+                                        <Flex ml="5%" w="full" flexDirection="Row" gap="12">
+                                            <Text w="12%">코드 품질</Text>
+                                            <Separator orientation="vertical" />
+                                            <CheckboxGroup w="90%"
+                                                value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                                                onValueChange={handleCheckElementList}
+                                                flexDirection="Row"
+                                                gap="12"
+                                            >
+                                                {CheckLists.map((checkList, index) => (
+                                                    <Checkbox key={checkList.id} value={(checkList.id).toString()}>
+                                                        {checkList.value}
+                                                    </Checkbox>
+                                                ))}
+                                            </CheckboxGroup>
+                                        </Flex>
+                                        {index !== 3 && <Separator w="full" orientation="horizontal" />}
+                                    </React.Fragment>
                                 ))}
-                        </CheckboxGroup>
-                    </Flex>
-                    <Separator w="full" orientation="horizontal" />
-                    <Flex marginTop="0px" ml="5%" w="full" flexDirection="Row" gap="12">
-                        <Text w="12%">코드 품질</Text>
-                        <Separator orientation="vertical" />
-                        <CheckboxGroup w="90%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                            flexDirection="Row"
-                            gap="12"
-                        >
-                                {CheckLists.map((checkList, index) => (
-                                    <Checkbox  key={checkList.id}
-                                        value={(checkList.id).toString()}
-                                    >
-                                        {checkList.value}
-                                    </Checkbox>
-                                ))}
-                        </CheckboxGroup>
-                    </Flex>
-                    <Separator w="full" orientation="horizontal" />
-                    <Flex ml="5%" w="full" flexDirection="Row" gap="12">
-                        <Text w="12%">코드 품질</Text>
-                        <Separator orientation="vertical" />
-                        <CheckboxGroup w="90%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                            flexDirection="Row"
-                            gap="12"
-                        >
-                                {CheckLists.map((checkList, index) => (
-                                    <Checkbox  key={checkList.id}
-                                        value={(checkList.id).toString()}
-                                    >
-                                        {checkList.value}
-                                    </Checkbox>
-                                ))}
-                        </CheckboxGroup>
-                    </Flex>
-                    <Separator w="full" orientation="horizontal" />
-                    <Flex ml="5%" w="full" flexDirection="Row" gap="12">
-                        <Text w="12%">코드 품질</Text>
-                        <Separator orientation="vertical" />
-                        <CheckboxGroup w="90%"
-                            value={checkElementList.map((checkElement) => checkElement.id.toString())}
-                            onValueChange={handleCheckElementList}
-                            flexDirection="Row"
-                            gap="12"
-                        >
-                                {CheckLists.map((checkList, index) => (
-                                    <Checkbox  key={checkList.id}
-                                        value={(checkList.id).toString()}
-                                    >
-                                        {checkList.value}
-                                    </Checkbox>
-                                ))}
-                        </CheckboxGroup>
-                    </Flex>
-                </Card.Footer>
-                <Button
-                    variant={"subtle"}
-                    colorPalette={"black"}
-                    onClick={() => {
-                        requestFileUpload()
-                    }}
-                >
-                    업로드
-                </Button>
-                {/* <Button
-                    variant={"subtle"}
-                    colorPalette={"black"}
-                    onClick={() => {
-                        navigate(`/${requestId}/result`)
-                    }}
-                >
-                    결과 보기
-                </Button> */}
-            </Card.Root>
+                            </Card.Footer>
+                            <Button
+                                variant={"subtle"}
+                                colorPalette={"black"}
+                                onClick={() => {
+                                    requestFileUpload()
+                                }}
+                            >
+                                업로드
+                            </Button>
+                        </>
+                    )}
+                </Card.Root>
+            </Box>
         </Center>
+    ) : (
+        <Confirm requestId={initId as string} />
     );
 };
 
