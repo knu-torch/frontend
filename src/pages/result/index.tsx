@@ -1,8 +1,9 @@
-import { Box, Button, Card, Center, Spinner, defineAnimationStyles } from "@chakra-ui/react";
+import { Box, Card, Center, Spinner, IconButton, Breadcrumb, Text } from "@chakra-ui/react";
 import { useCallback, useState, useEffect } from "react";
-import FileUploadByUserId from "../../api/fileUpload/postFileByUserId";
+import FileUploadByUserId from "../../api/file/postFileByUserId";
 import Markdown from "react-markdown";
 import { Prose } from "../../components/ui/prose";
+import { LuDownload, LuHouse, LuShirt } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 import getResultByRequestId from "../../api/result/getResultByRequestId";
 
@@ -90,45 +91,62 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
     }, [Init]);
 
     return (
-        <Box
-            mt={10}
-            pb={10}
-            minH="100vh"
-            display="flex"
-            alignItems="center"
-        >
-            <Center w="full">
-                {isLoading ? (
-                    <Center w="full">
-                        <Box data-state="open"
-                            _open={{
-                                animationName: "slide-from-bottom-full, scale-in",
-                                animationDuration: "300ms",
-                            }} w={"90%"}>
-                            <Card.Root variant={"elevated"}>
-                                <Center p={10}>
-                                    <Spinner size={"xl"} />
-                                </Center>
-                            </Card.Root>
-                        </Box>
-                    </Center>
-                ) : (
-                    <Card.Root variant={"elevated"} w={"90%"}>
-                        <Card.Body>
+        <>
+            <Box
+                mt={10}
+                pb={10}
+                minH="100vh"
+                display="flex"
+                flexDirection="column"
+            >
+                <Breadcrumb.Root h="30px" w="90%" mx="auto">
+                    <Breadcrumb.List>
+                        <Breadcrumb.Item>
+                            <Breadcrumb.Link href="/">
+                                <LuHouse size="25px" />
+                                <Text fontSize="17px">Home</Text>
+                            </Breadcrumb.Link>
+                        </Breadcrumb.Item>
+                    </Breadcrumb.List>
+                </Breadcrumb.Root>
+                <Center w="full">
+                    {isLoading ? (
+                        <Center w="full">
                             <Box data-state="open"
                                 _open={{
-                                    animationName: "slide-from-bottom , fade-in",
-                                    animationDuration: "500ms",
-                                }}>
-                                <Prose>
-                                    <Markdown>{content}</Markdown>
-                                </Prose>
+                                    animationName: "slide-from-bottom-full, scale-in",
+                                    animationDuration: "300ms",
+                                }} w={"90%"}>
+                                <Card.Root variant={"elevated"}>
+                                    <Center p={10}>
+                                        <Spinner size={"xl"} />
+                                    </Center>
+                                </Card.Root>
                             </Box>
-                        </Card.Body>
-                    </Card.Root>
-                )}
-            </Center>
-        </Box>
+                        </Center>
+                    ) : (
+                        <Card.Root variant={"elevated"} w={"90%"}>
+                            <Card.Body>
+                                <Box data-state="open"
+                                    _open={{
+                                        animationName: "slide-from-bottom , fade-in",
+                                        animationDuration: "500ms",
+                                    }}>
+                                    <Prose>
+                                        <Markdown>{content}</Markdown>
+                                    </Prose>
+                                </Box>
+                            </Card.Body>
+                        </Card.Root>
+                    )}
+                </Center>
+            </Box>
+            <Box position="fixed" bottom="30px" right="30px">
+                <IconButton size="2xl" rounded="full" bg="gray.200" color="black" _hover={{ bg: "gray.400" }}>
+                    <LuDownload size="30px" />
+                </IconButton>
+            </Box>
+        </>
     );
 };
 

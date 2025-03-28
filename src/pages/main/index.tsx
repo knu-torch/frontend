@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import CheckLists from "../../config/CheckLists";
 import CheckElementList from "../../types/checkElementList";
 import Default from "../../config/Default";
-import postSelectedElementByRequestId from "../../api/result/postSelectedElmentByRequestId";
+import postFileByRequestId from "../../api/result/postFileByRequestId";
 import { Checkbox } from "~/components/ui/checkbox";
 import React from "react";
 import { ButtonMode } from "../../types/ButtonMode";

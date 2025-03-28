@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import Config from "../../config/Config";
 import CheckElementList from "../../types/checkElementList";
 
-const postSelectedElementByRequestId = async (files:File[], checkElementList: CheckElementList[]): Promise<string> => {
+const postFileByRequestId = async (files:File[], checkElementList: CheckElementList[]): Promise<string> => {
     try {
         const body = new FormData();
         files.forEach((file) => {
@@ -29,5 +29,5 @@ const postSelectedElementByRequestId = async (files:File[], checkElementList: Ch
     }
 }
 
-export default postSelectedElementByRequestId;
+export default postFileByRequestId;
 
