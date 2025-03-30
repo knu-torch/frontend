@@ -10,6 +10,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import React from "react";
 import { ButtonMode } from "../../types/ButtonMode";
 import Confirm from "../confirm";
+import { DefaultCheckBoxElements } from "../../types/checkBoxElements";
 const MainPage = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
@@ -17,6 +18,7 @@ const MainPage = () => {
     const navigate = useNavigate();
     const [requestId, setRequestId] = useState<string>("");
     const [initId, setInitId] = useState<string>("");
+
     
     const requestFileUpload = async () => {
         setInitId("1234");
@@ -107,7 +109,7 @@ const MainPage = () => {
                     {mode === "upload" && (
                         <>
                             <Card.Footer flexDirection="column" w="full">
-                                {Array.from({ length: 4 }).map((_, index) => (
+                                {Object.entries(DefaultCheckBoxElements).map(([key, value], index: number) => (
                                     <React.Fragment key={index}>
                                         <Flex ml="5%" w="full" flexDirection="Row" gap="12">
                                             <Text w="12%">코드 품질</Text>
@@ -118,7 +120,7 @@ const MainPage = () => {
                                                 flexDirection="Row"
                                                 gap="12"
                                             >
-                                                {CheckLists.map((checkList, index) => (
+                                                {value.map((checkList, index) => (
                                                     <Checkbox key={checkList.id} value={(checkList.id).toString()}>
                                                         {checkList.value}
                                                     </Checkbox>
