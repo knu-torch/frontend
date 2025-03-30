@@ -6,7 +6,7 @@ import { Prose } from "../../components/ui/prose";
 import { LuDownload, LuHouse, LuShirt } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 import getResultByRequestId from "../../api/result/getResultByRequestId";
-
+import downloadPdfFile from "../../api/result/downloadPdfFile";
 const ResultPage = () => {
     const token = 'fwefwef'
     const sampleText = `# 인공지능(AI)의 발전과 미래
@@ -66,6 +66,7 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
     const requestId = useParams().requestId;
     const [content, setContent] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isDownload, setIsDownload] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const Init = useCallback(async () => {
@@ -84,6 +85,17 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
             setIsLoading(false);
         }
     }, [requestId]);
+
+    const handleDownload = async () => {
+        try {
+            setIsDownload(true);
+            await downloadPdfFile(requestId as string);
+            setIsDownload(false);
+        } catch (error) {
+            setIsDownload(false);
+            console.error(error);
+        }
+    }
 
     useEffect(() => {
         //window.location.replace("/")
@@ -142,8 +154,13 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
                 </Center>
             </Box>
             <Box position="fixed" bottom="30px" right="30px">
-                <IconButton size="2xl" rounded="full" bg="gray.200" color="black" _hover={{ bg: "gray.400" }}>
-                    <LuDownload size="30px" />
+                <IconButton size="2xl" rounded="full" bg="gray.200" color="black" _hover={{ bg: "gray.400" }} onClick={() => {
+                    handleDownload();
+                }}>
+                    {!isDownload ? (
+                        <LuDownload size="30px" />
+                    ) : <Spinner size="md" />
+                    }
                 </IconButton>
             </Box>
         </>

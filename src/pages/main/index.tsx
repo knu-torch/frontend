@@ -12,7 +12,7 @@ import { ButtonMode } from "../../types/ButtonMode";
 import Confirm from "../confirm";
 import { DefaultCheckBoxElements } from "../../types/checkBoxElements";
 const MainPage = () => {
-    const [files, setFiles] = useState<File[]>([]);
+    const [file, setFiles] = useState<File>();
     const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
     const [mode, setMode] = useState<ButtonMode>("upload");
     const navigate = useNavigate();
@@ -23,7 +23,8 @@ const MainPage = () => {
     const requestFileUpload = async () => {
         setInitId("1234");
         try {
-            const requestId = "await postSelectedElementByRequestId(files, checkElementList);"
+            if (!file) throw new Error("No file selected");
+            const requestId = await postFileByRequestId(file, checkElementList);
             setInitId(requestId);
             setTimeout(() => {
                 setInitId("wffwefwfef");
@@ -34,7 +35,7 @@ const MainPage = () => {
     }
 
     const handleFileUpload = (file: File) => {
-        setFiles([...files, file]);
+        setFiles(file);
     }
 
     const handleCheckElementList = (details: string[]) => {
@@ -78,7 +79,7 @@ const MainPage = () => {
                     </Card.Header>
                     {mode === "upload" ? (
                         <Card.Body>
-                            <FileUpload.Root alignItems="stretch" maxFiles={10} onFileChange={(details) => handleFileUpload(details.acceptedFiles[0])}>
+                            <FileUpload.Root alignItems="stretch" maxFiles={1} onFileChange={(details) => handleFileUpload(details.acceptedFiles[0])}>
                                 <FileUpload.HiddenInput />
                                 <FileUpload.Dropzone>
                                     <Icon size="md" color="fg.muted">
@@ -122,7 +123,7 @@ const MainPage = () => {
                                             >
                                                 {value.map((checkList, index) => (
                                                     <Checkbox key={checkList.id} value={(checkList.id).toString()}>
-                                                        {checkList.value}
+                                                        {checkList.name}
                                                     </Checkbox>
                                                 ))}
                                             </CheckboxGroup>

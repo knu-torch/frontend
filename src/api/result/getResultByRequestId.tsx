@@ -1,7 +1,9 @@
 import FileUpload from "../../types/fileUpload";
-import axios, { AxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import Config from "../../config/Config";
 import CheckElementList from "../../types/checkElementList";
+import { toaster } from "~/components/ui/toaster";
+import HandleError from "~/common/HandleError";
 
 const getResultByRequestId = async (requestId: number): Promise<string> => {
     try {
@@ -13,10 +15,16 @@ const getResultByRequestId = async (requestId: number): Promise<string> => {
 
         return data;
     } catch (error) {
-        if (error instanceof AxiosError) {
-            throw error;
+        if (isAxiosError(error)) {
+            HandleError(error);
+        } else {
+            toaster.create({
+                type: "error",
+                title: "fetch error",
+                description: "서버와의 통신에 실패하였습니다.",
+            });
         }
-        throw new Error("Failed to upload file");
+        return Promise.reject("get result failed");
     }
 }
 
