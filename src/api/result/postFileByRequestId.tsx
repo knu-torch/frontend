@@ -4,11 +4,11 @@ import CheckElementList from "../../types/checkElementList";
 import { toaster } from "~/components/ui/toaster";
 import HandleError from "~/common/HandleError";
 
-const postFileByRequestId = async (files:File, checkElementList: CheckElementList[]): Promise<string> => {
+const postFileByRequestId = async (file:File, options: CheckElementList[]): Promise<string> => {
     try {
         const body = new FormData();
-        body.append("file", files);
-        body.append("checkElementList", JSON.stringify(checkElementList));                  
+        body.append("file", file);
+        body.append("checkElementList", JSON.stringify(options));                  
         console.log(body);
         const response = await axios.post(
             `${Config.API.Server}/result`,
