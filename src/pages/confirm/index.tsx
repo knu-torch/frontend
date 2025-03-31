@@ -15,13 +15,13 @@ const Confirm = ({ requestId }: ConfirmProps) => {
                     <Center mb="50px">
                         <Box ml={"70px"} data-state="open"
                             _open={{
-                                animationName: "spin , fade-in",
+                                animationName: "slide-from-bottom , fade-in",
                                 animationDuration: "1000ms",
                             }}>
                             <LuCheck color="lightgreen" size={500} />
                         </Box>
                     </Center>
-                    <Center flexDirection="column" gap={4}>
+                    {/* <Center flexDirection="column" gap={4}>
                         <Heading>확인 완료</Heading>
                         <Text color="gray.600" textAlign="center" fontSize="lg">
                             프로젝트가 성공적으로 제출되었습니다! 🎉
@@ -30,7 +30,7 @@ const Confirm = ({ requestId }: ConfirmProps) => {
                             <br />
                             분석 결과를 확인하실 때 필요합니다.
                         </Text>
-                    </Center>
+                    </Center> */}
                 </Card.Body>
                 <Card.Footer>
                     <Center mt="10px" w="full">

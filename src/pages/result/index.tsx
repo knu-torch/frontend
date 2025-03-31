@@ -1,12 +1,14 @@
-import { Box, Card, Center, Spinner, IconButton, Breadcrumb, Text } from "@chakra-ui/react";
+import { Box, Card, Center, Spinner, IconButton, Breadcrumb, Text, AlertTitle, Flex } from "@chakra-ui/react";
 import { useCallback, useState, useEffect } from "react";
 import FileUploadByUserId from "../../api/file/postFileByUserId";
 import Markdown from "react-markdown";
 import { Prose } from "../../components/ui/prose";
-import { LuDownload, LuHouse, LuShirt } from "react-icons/lu";
+import { LuDownload, LuHouse, LuShirt, LuX } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
 import getResultByRequestId from "../../api/result/getResultByRequestId";
 import downloadPdfFile from "../../api/result/downloadPdfFile";
+import { Alert } from "~/components/ui/alert";
+import { AnimationBox } from "~/common/AnimationBox";
 const ResultPage = () => {
     const token = 'fwefwef'
     const sampleText = `# 인공지능(AI)의 발전과 미래
@@ -67,20 +69,24 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
     const [content, setContent] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDownload, setIsDownload] = useState<boolean>(false);
+    const [isFailed, setIsFailed] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const Init = useCallback(async () => {
         try {
             setIsLoading(true);
-            setContent(sampleText + sampleText + sampleText + sampleText);
             if (requestId) {
                 const result = await getResultByRequestId(parseInt(requestId));
                 setContent(result);
                 console.log(result);
             }
         } catch (error) {
-            setContent(sampleText + sampleText + sampleText + sampleText);
             console.error(error);
+            setIsFailed(true);
+            setContent(sampleText);
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
         } finally {
             setIsLoading(false);
         }
@@ -124,35 +130,39 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
                 <Center w="full">
                     {isLoading ? (
                         <Center w="full">
-                            <Box data-state="open"
-                                _open={{
-                                    animationName: "slide-from-bottom-full, scale-in",
-                                    animationDuration: "300ms",
-                                }} w={"90%"}>
-                                <Card.Root variant={"elevated"}>
+                            <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
+                            <Card.Root variant={"elevated"}>
                                     <Center p={10}>
                                         <Spinner size={"xl"} />
                                     </Center>
                                 </Card.Root>
-                            </Box>
+                                </AnimationBox>
                         </Center>
-                    ) : (
+                    ) : !isFailed ? (
                         <Card.Root variant={"elevated"} w={"90%"}>
                             <Card.Body>
-                                <Box data-state="open"
-                                    _open={{
-                                        animationName: "slide-from-bottom , fade-in",
-                                        animationDuration: "500ms",
-                                    }}>
+                                <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
                                     <Prose>
                                         <Markdown>{content}</Markdown>
                                     </Prose>
-                                </Box>
+                                </AnimationBox>
                             </Card.Body>
                         </Card.Root>
+                    ) : (
+                        <Center h="10vh" w="full">
+                            <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom-full, scale-in" animationDuration="500ms">
+                                <Alert
+                                    status="error">
+                                    <Flex>
+                                        <LuX size={30}/>
+                                        <Text ml="10px" mt="4px" fontSize="20px">Failed to load content</Text>
+                                    </Flex>
+                                </Alert>
+                            </AnimationBox>
+                        </Center>
                     )}
                 </Center>
-            </Box>
+            </Box >
             <Box position="fixed" bottom="30px" right="30px">
                 <IconButton size="2xl" rounded="full" bg="gray.200" color="black" _hover={{ bg: "gray.400" }} onClick={() => {
                     handleDownload();

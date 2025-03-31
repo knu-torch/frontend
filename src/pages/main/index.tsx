@@ -11,6 +11,7 @@ import React from "react";
 import { ButtonMode } from "../../types/ButtonMode";
 import Confirm from "../confirm";
 import { DefaultCheckBoxElements } from "../../types/checkBoxElements";
+import { AnimationBox } from "~/common/AnimationBox";
 const MainPage = () => {
     const [file, setFiles] = useState<File>();
     const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
@@ -51,7 +52,7 @@ const MainPage = () => {
 
     return initId === "" ? (
         <Center w="100%" h="100%">
-            <Box>
+            <AnimationBox dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
                 <ButtonGroup m="10px" ml="0px" size="lg" variant="outline">
                     <Tabs.Root defaultValue="upload" variant="plain" onValueChange={(details) => {
                         console.log(details);
@@ -144,7 +145,7 @@ const MainPage = () => {
                         </>
                     )}
                 </Card.Root>
-            </Box>
+            </AnimationBox>
         </Center>
     ) : (
         <Confirm requestId={initId as string} />
