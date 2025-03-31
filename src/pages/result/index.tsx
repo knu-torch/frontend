@@ -69,7 +69,6 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
     const [content, setContent] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDownload, setIsDownload] = useState<boolean>(false);
-    const [isFailed, setIsFailed] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const Init = useCallback(async () => {
@@ -82,11 +81,8 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
             }
         } catch (error) {
             console.error(error);
-            setIsFailed(true);
-            setContent(sampleText);
-            setTimeout(() => {
-                navigate("/");
-            }, 1000);
+            navigate("/");
+
         } finally {
             setIsLoading(false);
         }
@@ -138,7 +134,7 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
                                 </Card.Root>
                                 </AnimationBox>
                         </Center>
-                    ) : !isFailed ? (
+                    ) : (
                         <Card.Root variant={"elevated"} w={"90%"}>
                             <Card.Body>
                                 <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
@@ -148,18 +144,6 @@ AI는 우리 사회를 근본적으로 변화시키고 있으며, 이러한 변�
                                 </AnimationBox>
                             </Card.Body>
                         </Card.Root>
-                    ) : (
-                        <Center h="10vh" w="full">
-                            <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom-full, scale-in" animationDuration="500ms">
-                                <Alert
-                                    status="error">
-                                    <Flex>
-                                        <LuX size={30}/>
-                                        <Text ml="10px" mt="4px" fontSize="20px">Failed to load content</Text>
-                                    </Flex>
-                                </Alert>
-                            </AnimationBox>
-                        </Center>
                     )}
                 </Center>
             </Box >

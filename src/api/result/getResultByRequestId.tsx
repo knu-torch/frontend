@@ -15,15 +15,11 @@ const getResultByRequestId = async (requestId: number): Promise<string> => {
 
         return data;
     } catch (error) {
-        if (isAxiosError(error)) {
-            HandleError(error);
-        } else {
-            toaster.create({
-                type: "error",
-                title: "fetch error",
-                description: "서버와의 통신에 실패하였습니다.",
-            });
-        }
+        toaster.create({
+            type: "error",
+            title: "fetch error",
+            description: "컨텐츠를 불러오는데 실패했습니다.",
+        });
         return Promise.reject("get result failed");
     }
 }
