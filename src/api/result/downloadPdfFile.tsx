@@ -6,12 +6,12 @@ import HandleError from '~/common/HandleError';
 
 const downloadPdfFile = async (requestId: string) => {
     try {
-        const response = await axios.get(`${Config.API.Server}/api/download/${requestId}`, {
+        const response = await axios.get(`${Config.API.Server}/download/${requestId}`, {
             responseType: 'blob'
         });
-
+        console.log(response);
         const fileName = 'result.pdf';
-        saveAs(response.data, fileName);
+        // saveAs(response.data, fileName);
 
     } catch (error) {
         toaster.create({

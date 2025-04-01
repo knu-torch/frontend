@@ -3,6 +3,5 @@ interface Result {
     content: string;
 }
 
-export default Result;
 
 

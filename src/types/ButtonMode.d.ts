@@ -1,0 +1,1 @@
+type ButtonMode = "upload" | "result";

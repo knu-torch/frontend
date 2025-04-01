@@ -3,5 +3,3 @@ interface FileUpload {
     file: File;
 }
 
-export default FileUpload;
-

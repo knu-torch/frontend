@@ -5,5 +5,3 @@ interface AnimationBoxProps {
     children: React.ReactNode;
     w?: string;
 }
-
-export type { AnimationBoxProps };

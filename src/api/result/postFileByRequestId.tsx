@@ -1,23 +1,25 @@
 import axios, { isAxiosError } from "axios";
 import Config from "../../config/Config";
-import CheckElementList from "../../types/checkElementList";
 import { toaster } from "~/components/ui/toaster";
 import HandleError from "~/common/HandleError";
 
-const postFileByRequestId = async (file:File, options: CheckElementList[]): Promise<string> => {
+const postFileByRequestId = async (file: File, options: CheckElementList[]): Promise<string> => {
     try {
         const body = new FormData();
-        body.append("file", file);
-        body.append("checkElementList", JSON.stringify(options));                  
-        console.log(body);
+        body.append("project_file", file);
+        const newOptions = options.reduce((acc, option) => {
+            acc.push(option.value);
+            return acc;
+        }, [] as string[]);
+        body.append("summary_options", JSON.stringify(newOptions));
         const response = await axios.post(
-            `${Config.API.Server}/result`,
+            `${Config.API.Server}`,
             body
         );
 
         const data = await response.data;
-
-        return data;
+        console.log(data.request_id);
+        return data.request_id;
     } catch (error) {
         if (isAxiosError(error)) {
             HandleError(error);

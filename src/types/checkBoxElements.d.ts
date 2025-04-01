@@ -15,9 +15,10 @@ type CheckBoxElementListType = "codeQuility";
 
 
 type CheckBoxElementListObject = {
-    id: number;
-    name: CheckBoxElements;
-    type: CheckBoxElementListType;
+    codeQuility: Array<{
+        id: number;
+        name: CheckBoxElements;
+    }>;
 }
 
 export const DefaultCheckBoxElements: Record<CheckBoxElementListType, Array<Omit<CheckBoxElementListObject, 'type'>>> = {
@@ -27,5 +28,3 @@ export const DefaultCheckBoxElements: Record<CheckBoxElementListType, Array<Omit
         { id: 3, name: "ClassSummary" }
     ]
 };
-
-export type { CheckBoxElements, CheckBoxElementListObject, CheckBoxElementListType };

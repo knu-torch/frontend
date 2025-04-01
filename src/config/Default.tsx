@@ -1,13 +1,10 @@
-import Result from "../types/result";
-import CheckElementList from "../types/checkElementList";
-import FileUpload from "../types/fileUpload";
-import {CheckBoxElementListObject ,CheckBoxElements ,CheckBoxElementListType} from "../types/checkBoxElements";
+import { CheckBoxElementListObject } from "../types/checkBoxElements";
 
 const Default: {
     Result: Result;
     CheckElementList: CheckElementList[];
     FileUpload: FileUpload[];
-    CheckBoxElementListObject: CheckBoxElementListObject[];
+    CheckBoxElementListObject: CheckBoxElementListObject;
 } = {
     Result: {
         requestId: "0",
@@ -15,18 +12,19 @@ const Default: {
     },
     CheckElementList: [],
     FileUpload: [],
-    CheckBoxElementListObject: [
-        {
-            id: 1,
-            value: "ProjectSummary",
-            type: "codeQuility",
-        },
-        {
-            id: 2,
-            value: "DirectorySummary",
-            type: "codeQuility",
-        }
-    ],
+    CheckBoxElementListObject: {
+        codeQuility: [
+            {
+                id: 1,
+                name: "ProjectSummary"
+            },
+            {
+                id: 2,
+                name: "DirectorySummary"
+            }
+        ]
+    }
+
 };
 
 export default Default;

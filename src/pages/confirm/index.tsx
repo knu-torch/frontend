@@ -1,5 +1,5 @@
 import { Card, Center, Heading, Group, Input, Button, Clipboard, Box, Text } from "@chakra-ui/react";
-import { LuCheck,LuExternalLink  } from "react-icons/lu";
+import { LuCheck, LuExternalLink } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 interface ConfirmProps {
@@ -8,6 +8,7 @@ interface ConfirmProps {
 
 const Confirm = ({ requestId }: ConfirmProps) => {
     const navigate = useNavigate();
+    // console.log(requestId as string);
     return (
         <Center w="100%" h="100%">
             <Card.Root w="1000px" variant={"elevated"}>
@@ -35,7 +36,7 @@ const Confirm = ({ requestId }: ConfirmProps) => {
                 <Card.Footer>
                     <Center mt="10px" w="full">
                         <Group attached w="full" maxW="lg">
-                            <Input w="full" h={"41px"} flex="" placeholder="Enter your request Token" value={requestId} />
+                            <Input w="full" h={"41px"} flex="" placeholder="Enter your request Token" value={requestId as string} />
                             <Clipboard.Root ml="15px" value={requestId}>
                                 <Clipboard.Trigger asChild>
                                     <Button variant="surface" size="md">

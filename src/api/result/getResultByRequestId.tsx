@@ -1,7 +1,5 @@
-import FileUpload from "../../types/fileUpload";
 import axios, { isAxiosError } from "axios";
 import Config from "../../config/Config";
-import CheckElementList from "../../types/checkElementList";
 import { toaster } from "~/components/ui/toaster";
 import HandleError from "~/common/HandleError";
 
