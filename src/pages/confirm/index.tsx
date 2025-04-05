@@ -1,4 +1,4 @@
-import { Card, Center, Heading, Group, Input, Button, Clipboard, Box, Text } from "@chakra-ui/react";
+import { Card, Center, Group, Input, Button, Clipboard, Box } from "@chakra-ui/react";
 import { LuCheck, LuExternalLink } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 

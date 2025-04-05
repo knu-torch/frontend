@@ -1,8 +1,7 @@
-import axios, { isAxiosError } from 'axios';
-import { saveAs } from 'file-saver';
+import axios from 'axios';
+// import { saveAs } from 'file-saver';
 import Config from '../../config/Config';
 import { toaster } from '~/components/ui/toaster';
-import HandleError from '~/common/HandleError';
 
 const downloadPdfFile = async (requestId: string) => {
     try {
@@ -10,7 +9,7 @@ const downloadPdfFile = async (requestId: string) => {
             responseType: 'blob'
         });
         console.log(response);
-        const fileName = 'result.pdf';
+        // const fileName = 'result.pdf';
         // saveAs(response.data, fileName);
 
     } catch (error) {

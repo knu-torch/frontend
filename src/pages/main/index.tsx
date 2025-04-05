@@ -1,5 +1,5 @@
 import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Flex, Text, Separator, ButtonGroup, Group, Input, Tabs } from "@chakra-ui/react";
-import { LuUpload, LuUser, LuFolder, LuSquareCheck } from "react-icons/lu";
+import { LuUpload, LuUser, LuFolder } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckLists from "../../config/CheckLists";
@@ -104,7 +104,7 @@ const MainPage = () => {
                     {mode === "upload" && (
                         <>
                             <Card.Footer flexDirection="column" w="full">
-                                {Object.entries(Default.CheckBoxElementListObject).map(([key, value], index: number) => (
+                                {Object.entries(Default.CheckBoxElementListObject).map(([_, value], index: number) => (
                                     <React.Fragment key={index}>
                                         <Flex ml="5%" w="full" flexDirection="Row" gap="12">
                                             <Text w="12%">코드 품질</Text>
@@ -115,7 +115,7 @@ const MainPage = () => {
                                                 flexDirection="Row"
                                                 gap="12"
                                             >
-                                                {value.map((checkList, index) => (
+                                                {value.map((checkList) => (
                                                     <Checkbox key={checkList.id} value={(checkList.id).toString()}>
                                                         {checkList.name}
                                                     </Checkbox>
