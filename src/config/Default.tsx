@@ -1,5 +1,3 @@
-import { CheckBoxElementListObject } from "../types/checkBoxElements";
-
 const Default: {
     Result: Result;
     CheckElementList: CheckElementList[];

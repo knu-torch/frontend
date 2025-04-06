@@ -21,10 +21,3 @@ type CheckBoxElementListObject = {
     }>;
 }
 
-export const DefaultCheckBoxElements: Record<CheckBoxElementListType, Array<Omit<CheckBoxElementListObject, 'type'>>> = {
-    codeQuility: [
-        { id: 1, name: "ProjectSummary" },
-        { id: 2, name: "DirectorySummary" },
-        { id: 3, name: "ClassSummary" }
-    ]
-};

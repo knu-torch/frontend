@@ -1,11 +1,11 @@
 import { Box, Card, Center, Spinner, IconButton, Breadcrumb, Text } from "@chakra-ui/react";
 import { useCallback, useState, useEffect } from "react";
 import Markdown from "react-markdown";
-import { Prose } from "../../components/ui/prose";
+import { Prose } from "~/components/ui/prose";
 import { LuDownload, LuHouse } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
-import getResultByRequestId from "../../api/result/getResultByRequestId";
-import downloadPdfFile from "../../api/result/downloadPdfFile";
+import getResultByRequestId from "~/api/result/getResultByRequestId";
+import downloadPdfFile from "~/api/result/downloadPdfFile";
 import { AnimationBox } from "~/common/AnimationBox";
 const ResultPage = () => {
 

@@ -2,12 +2,12 @@ import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Fl
 import { LuUpload, LuUser, LuFolder } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckLists from "../../config/CheckLists";
-import Default from "../../config/Default";
-import postFileByRequestId from "../../api/result/postFileByRequestId";
+import CheckLists from "~/config/CheckLists";
+import Default from "~/config/Default";
+import postFileByRequestId from "~/api/result/postFileByRequestId";
 import { Checkbox } from "~/components/ui/checkbox";
 import React from "react";
-import Confirm from "../confirm";
+import Confirm from "~/pages/confirm";
 import { AnimationBox } from "~/common/AnimationBox";
 const MainPage = () => {
     const [file, setFiles] = useState<File>();

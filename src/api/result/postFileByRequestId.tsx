@@ -1,5 +1,5 @@
 import axios, { isAxiosError } from "axios";
-import Config from "../../config/Config";
+import Config from "~/config/Config";
 import { toaster } from "~/components/ui/toaster";
 import HandleError from "~/common/HandleError";
 
