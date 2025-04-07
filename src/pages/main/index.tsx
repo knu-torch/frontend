@@ -1,6 +1,6 @@
 import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Flex, Text, Separator, ButtonGroup, Group, Input, Tabs } from "@chakra-ui/react";
 import { LuUpload, LuUser, LuFolder } from "react-icons/lu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckLists from "~/config/CheckLists";
 import Default from "~/config/Default";
@@ -9,6 +9,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import React from "react";
 import Confirm from "~/pages/confirm";
 import { AnimationBox } from "~/common/AnimationBox";
+import { throttle } from "lodash";
 const MainPage = () => {
     const [file, setFiles] = useState<File>();
     const [checkElementList, setCheckElementList] = useState<CheckElementList[]>(Default.CheckElementList);
@@ -18,11 +19,16 @@ const MainPage = () => {
     const [initId, setInitId] = useState<string>("");
 
 
+
+    const requestThrottle = throttle(async (file: File, checkElementList: CheckElementList[]) => {
+        const requestId = await postFileByRequestId(file, checkElementList);
+        setInitId(requestId);
+    }, 2000);
+
     const requestFileUpload = async () => {
         try {
             if (!file) throw new Error("No file selected");
-            const requestId = await postFileByRequestId(file, checkElementList);
-            setInitId(requestId);
+            requestThrottle(file, checkElementList);
         } catch (error) {
             console.error(error);
         }
@@ -42,6 +48,12 @@ const MainPage = () => {
             }));
         setCheckElementList(newCheckElementList);
     }
+
+    useEffect(() => {
+        setFiles(undefined);
+        setCheckElementList(Default.CheckElementList);
+        setInitId("");
+    }, [mode]);
 
     return initId === "" ? (
         <Center w="100%" h="100%">
