@@ -1,8 +1,8 @@
-import { Box, Card, Center, Spinner, IconButton, Breadcrumb, Text } from "@chakra-ui/react";
+import { Box, Card, Center, Spinner, IconButton, Breadcrumb, Text, Icon, Heading } from "@chakra-ui/react";
 import { useCallback, useState, useEffect } from "react";
-import Markdown from "react-markdown";
-import { Prose } from "~/components/ui/prose";
+import { saveAs } from 'file-saver';
 import { LuDownload, LuHouse } from "react-icons/lu";
+import { CiWarning } from "react-icons/ci";
 import { useNavigate, useParams } from "react-router-dom";
 import getResultByRequestId from "~/api/result/getResultByRequestId";
 import downloadPdfFile from "~/api/result/downloadPdfFile";
@@ -10,7 +10,7 @@ import { AnimationBox } from "~/common/AnimationBox";
 const ResultPage = () => {
 
     const requestId = useParams().requestId;
-    const [content, setContent] = useState<string>();
+    const [content, setContent] = useState<Blob>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDownload, setIsDownload] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const ResultPage = () => {
             }
         } catch (error) {
             console.error(error);
-            navigate("/");
+            // navigate("/");
 
         } finally {
             setIsLoading(false);
@@ -35,7 +35,7 @@ const ResultPage = () => {
     const handleDownload = async () => {
         try {
             setIsDownload(true);
-            await downloadPdfFile(requestId as string);
+            saveAs(content as Blob, `${requestId}.pdf`);
             setIsDownload(false);
         } catch (error) {
             setIsDownload(false);
@@ -81,10 +81,27 @@ const ResultPage = () => {
                     ) : (
                         <Card.Root variant={"elevated"} w={"90%"}>
                             <Card.Body>
-                                <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
-                                    <Prose>
-                                        <Markdown>{content}</Markdown>
-                                    </Prose>
+                                <AnimationBox w={"100%"} dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
+                                    {
+                                        content ? (
+                                            <object
+                                                width={"100%"}
+                                                height={"1600px"}
+                                                data={URL.createObjectURL(content as Blob)}
+                                                type={content.type}
+                                            ></object>
+                                        ) : (
+                                            <Center gap={"20px"}>
+                                                <Icon size={"lg"} color={"red"}>
+                                                    <CiWarning />
+                                                </Icon>
+
+                                                <Heading>
+                                                    파일을 찾을 수 없습니다.
+                                                </Heading>
+                                            </Center>
+                                        )
+                                    }
                                 </AnimationBox>
                             </Card.Body>
                         </Card.Root>

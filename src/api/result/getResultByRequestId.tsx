@@ -2,14 +2,16 @@ import axios from "axios";
 import Config from "~/config/Config";
 import { toaster } from "~/components/ui/toaster";
 
-const getResultByRequestId = async (requestId: string): Promise<string> => {
+const getResultByRequestId = async (requestId: string): Promise<Blob> => {
     try {
         const response = await axios.get(
-            `${Config.API.Server}/${requestId}`,
+            `${Config.API.Server}/download/${requestId}`,
+            {
+                responseType: "blob",
+            }
         );
 
         const data = await response.data;
-
         return data;
     } catch (error) {
         toaster.create({
