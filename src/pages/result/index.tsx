@@ -3,9 +3,8 @@ import { useCallback, useState, useEffect } from "react";
 import { saveAs } from 'file-saver';
 import { LuDownload, LuHouse } from "react-icons/lu";
 import { CiWarning } from "react-icons/ci";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import getResultByRequestId from "~/api/result/getResultByRequestId";
-import downloadPdfFile from "~/api/result/downloadPdfFile";
 import { AnimationBox } from "~/common/AnimationBox";
 const ResultPage = () => {
 
@@ -13,7 +12,6 @@ const ResultPage = () => {
     const [content, setContent] = useState<Blob>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDownload, setIsDownload] = useState<boolean>(false);
-    const navigate = useNavigate();
 
     const Init = useCallback(async () => {
         try {
