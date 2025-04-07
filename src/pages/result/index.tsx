@@ -86,7 +86,7 @@ const ResultPage = () => {
                                         content ? (
                                             <object
                                                 width={"100%"}
-                                                height={"1600px"}
+                                                height={"1200px"}
                                                 data={URL.createObjectURL(content as Blob)}
                                                 type={content.type}
                                             ></object>
