@@ -5,7 +5,7 @@ import { toaster } from "~/components/ui/toaster";
 const getResultByRequestId = async (requestId: string): Promise<string> => {
     try {
         const response = await axios.get(
-            `${Config.API.Server}/download/${requestId}`,
+            `${Config.API.Server}/${requestId}`,
         );
 
         const data = await response.data;
