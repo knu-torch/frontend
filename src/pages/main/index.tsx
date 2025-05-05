@@ -2,7 +2,6 @@ import { Box, Button, Card, Center, FileUpload, Heading, Icon, CheckboxGroup, Fl
 import { LuUpload, LuUser, LuFolder } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import CheckLists from "~/config/CheckLists";
 import Default from "~/config/Default";
 import postFileByRequestId from "~/api/result/postFileByRequestId";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -18,13 +17,13 @@ const MainPage = () => {
     const [requestId, setRequestId] = useState<string>("");
     const [initId, setInitId] = useState<string>("");
 
-
-
+    
+    
     const requestThrottle = throttle(async (file: File, checkElementList: CheckElementList[]) => {
         const requestId = await postFileByRequestId(file, checkElementList);
         setInitId(requestId);
     }, 2000);
-
+    
     const requestFileUpload = async () => {
         try {
             if (!file) throw new Error("No file selected");
@@ -33,28 +32,33 @@ const MainPage = () => {
             console.error(error);
         }
     }
-
+    
     const handleFileUpload = (file: File) => {
         setFiles(file);
     }
-
+    
     const handleCheckElementList = (details: string[]) => {
-        console.log(details);
-        const newCheckElementList = CheckLists
-            .filter(checkList => details.includes(checkList.id.toString()))
-            .map(checkList => ({
-                id: checkList.id.toString(),
-                value: checkList.value
-            }));
+        console.log("details", details);
+        const newCheckElementList = Default.CheckBoxAllList
+        .filter(checkList => details.includes(checkList.id.toString()))
+        .map(checkList => ({
+            id: checkList.id.toString(),
+            name: checkList.name
+        }));
+        console.log("newCheckElementList", newCheckElementList);
         setCheckElementList(newCheckElementList);
+        console.log("checkElementList", checkElementList);
     }
-
+    
     useEffect(() => {
         setFiles(undefined);
         setCheckElementList(Default.CheckElementList);
         setInitId("");
     }, [mode]);
-
+    
+    console.log("defcheckElementList", checkElementList);
+    console.log("111defcheckElementList", Default.CheckBoxElementListObject);
+    
     return initId === "" ? (
         <Center w="100%" h="100%">
             <AnimationBox dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
@@ -119,13 +123,18 @@ const MainPage = () => {
                                 {Object.entries(Default.CheckBoxElementListObject).map(([_, value], index: number) => (
                                     <React.Fragment key={index}>
                                         <Flex ml="5%" w="full" flexDirection="Row" gap="12">
-                                            <Text w="12%">코드 품질</Text>
+                                            <Text alignSelf="center" w="12%">코드 품질</Text>
                                             <Separator orientation="vertical" />
-                                            <CheckboxGroup w="90%"
-                                                value={checkElementList.map((checkElement) => checkElement.id.toString())}
+                                            <CheckboxGroup  w="90%"
+                                                value={checkElementList.map((checkElement) => {
+                                                    console.log("11111checkElement", checkElement);
+                                                    return checkElement.id.toString();
+                                                })}
                                                 onValueChange={handleCheckElementList}
                                                 flexDirection="Row"
-                                                gap="12"
+                                                gap="6"
+                                                display="flex"
+                                                flexWrap="wrap"
                                             >
                                                 {value.map((checkList) => (
                                                     <Checkbox key={checkList.id} value={(checkList.id).toString()}>
@@ -134,7 +143,7 @@ const MainPage = () => {
                                                 ))}
                                             </CheckboxGroup>
                                         </Flex>
-                                        {index !== 3 && <Separator w="full" orientation="horizontal" />}
+                                        {index !== 3 && <Separator mt="10px" w="full" orientation="horizontal" />}
                                     </React.Fragment>
                                 ))}
                             </Card.Footer>

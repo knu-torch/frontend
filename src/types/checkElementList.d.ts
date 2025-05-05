@@ -1,4 +1,4 @@
 interface CheckElementList {
     id: string;
-    value: string;
+    name: string;
 }

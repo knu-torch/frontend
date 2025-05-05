@@ -9,14 +9,15 @@ type CheckBoxElements =
     | "VariableUsage"
     | "VariableInitialization"
     | "VariableDeclaration"
-    | "VariableAssignment";
+    | "VariableAssignment"
+    | "FileSummary";
 
 type CheckBoxElementListType = "codeQuility";
 
 
 type CheckBoxElementListObject = {
     codeQuility: Array<{
-        id: number;
+        id: string;
         name: CheckBoxElements;
     }>;
 }

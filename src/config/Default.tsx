@@ -3,6 +3,7 @@ const Default: {
     CheckElementList: CheckElementList[];
     FileUpload: FileUpload[];
     CheckBoxElementListObject: CheckBoxElementListObject;
+    CheckBoxAllList: CheckElementList[];
 } = {
     Result: {
         requestId: "0",
@@ -13,15 +14,42 @@ const Default: {
     CheckBoxElementListObject: {
         codeQuility: [
             {
-                id: 1,
+                id: "1",
                 name: "ProjectSummary"
             },
             {
-                id: 2,
+                id: "2",
                 name: "DirectorySummary"
-            }
+            },
+            {
+                id: "3",
+                name: "FunctionSummary"
+            },
+            {
+                id: "4",
+                name: "FileSummary"
+            },
         ]
-    }
+    },
+    CheckBoxAllList: [
+        {
+            id: "1",
+            name: "ProjectSummary"
+        },
+        {
+            id: "2",
+            name: "DirectorySummary"
+        },
+        {
+            id: "3",
+            name: "FunctionSummary"
+        },
+        {
+            id: "4",
+            name: "FileSummary"
+        },
+        
+    ]
 
 };
 
