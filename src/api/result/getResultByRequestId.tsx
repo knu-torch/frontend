@@ -2,7 +2,7 @@ import axios from "axios";
 import Config from "~/config/Config";
 import { toaster } from "~/components/ui/toaster";
 
-const getResultByRequestId = async (requestId: string): Promise<Blob> => {
+const getResultByRequestId = async (requestId: string): Promise<[Blob, string]> => {
     try {
         const response = await axios.get(
             `${Config.API.Server}/download/${requestId}`,
@@ -12,7 +12,8 @@ const getResultByRequestId = async (requestId: string): Promise<Blob> => {
         );
 
         const data = await response.data;
-        return data;
+        console.log(response.headers);
+        return [data, response.headers["status"]];
     } catch (error) {
         toaster.create({
             type: "error",

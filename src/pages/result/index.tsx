@@ -12,21 +12,40 @@ const ResultPage = () => {
     const [content, setContent] = useState<Blob>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDownload, setIsDownload] = useState<boolean>(false);
-
+    const [retryFlag, setRetryFlag] = useState<boolean>(false);
     const Init = useCallback(async () => {
         try {
             setIsLoading(true);
             if (requestId) {
-                const result = await getResultByRequestId(requestId);
-                setContent(result);
-                console.log(result);
+                let result: Blob;
+                let status: string;
+                [result, status] = await getResultByRequestId(requestId);
+                const MAX_RETRIES = 10;
+                let retryCount = 0;
+                const checkStatus = async () => {
+                    if (status === "running" && retryCount < MAX_RETRIES) {
+                        [result, status] = await getResultByRequestId(requestId);
+                        setContent(result);
+                        retryCount++;
+                        setTimeout(checkStatus, 3000);
+                    } else {
+                        setIsLoading(false);
+                    }
+                };
+
+                if (status !== "done") {
+                    setTimeout(checkStatus, 3000);
+                }
+                if (retryCount >= MAX_RETRIES) {
+                    setIsLoading(true);
+                    setRetryFlag(true);
+                }
             }
         } catch (error) {
             console.error(error);
             // navigate("/");
 
         } finally {
-            setIsLoading(false);
         }
     }, [requestId]);
 
@@ -71,7 +90,13 @@ const ResultPage = () => {
                             <AnimationBox w={"90%"} dataState="open" animationName="slide-from-bottom , fade-in" animationDuration="500ms">
                                 <Card.Root variant={"elevated"}>
                                     <Center p={10}>
-                                        <Spinner size={"xl"} />
+                                        {retryFlag ? (
+                                            <Text>
+                                                시간이 걸립니다 잠시후에 다시 시도 부탁드립니다
+                                            </Text>
+                                        ) : (
+                                            <Spinner size={"xl"} />
+                                        )}
                                     </Center>
                                 </Card.Root>
                             </AnimationBox>

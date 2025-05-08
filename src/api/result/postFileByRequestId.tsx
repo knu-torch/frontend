@@ -8,7 +8,7 @@ const postFileByRequestId = async (file: File, options: CheckElementList[]): Pro
         const body = new FormData();
         body.append("project_file", file);
         const newOptions = options.reduce((acc, option) => {
-            acc.push(option.value);
+            acc.push(option.name);
             return acc;
         }, [] as string[]);
         body.append("summary_options", JSON.stringify(newOptions));
