@@ -175,6 +175,7 @@ const MainPage = () => {
                   )}
                   <Button
                     onClick={() => {
+                      console.log("mode", mode);
                       if (mode === "github") {
                         requestFileUpload();
                       } else {
