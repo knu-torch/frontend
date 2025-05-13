@@ -12,8 +12,6 @@ const postFileByRequestId = async (
         const body = new FormData();
         if (file) {
             body.append("project_file", file);
-        } else {
-            body.append("project_file", "");
         }
         const newOptions = options.reduce((acc, option) => {
             acc.push(option.name);
