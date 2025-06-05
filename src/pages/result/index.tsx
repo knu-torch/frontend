@@ -29,18 +29,17 @@ const ResultPage = () => {
                 let result: Blob;
                 let status: string;
                 [result, status] = await getResultByRequestId(requestId);
-                console.log("status", status);
-                console.log("content1", content);
                 const MAX_RETRIES = 2;
                 let retryCount = 0;
                 const checkStatus = async () => {
                     if (retryCount > MAX_RETRIES) {
-                        setIsLoading(true);
                         setRetryFlag(true);
                         return;
                     }
                     if (status === "running") {
-                        [result, status] = await getResultByRequestId(requestId);
+                        [result, status] = await getResultByRequestId(
+                            requestId
+                        );
                         setContent(result);
                         retryCount++;
                         setTimeout(checkStatus, 3000);
@@ -59,15 +58,14 @@ const ResultPage = () => {
                 }
                 if (status === "done") {
                     setRetryFlag(false);
-                    setIsLoading(false);
                     setContent(result);
                 }
-                console.log("content", content);
             }
         } catch (error) {
             console.error(error);
             // navigate("/");
         } finally {
+            setIsLoading(false);
         }
     }, [requestId]);
 
@@ -89,7 +87,13 @@ const ResultPage = () => {
 
     return (
         <>
-            <Box mt={10} pb={10} minH="100vh" display="flex" flexDirection="column">
+            <Box
+                mt={10}
+                pb={10}
+                minH="100vh"
+                display="flex"
+                flexDirection="column"
+            >
                 <Breadcrumb.Root h="30px" w="90%" mx="auto">
                     <Breadcrumb.List>
                         <Breadcrumb.Item>
@@ -113,7 +117,8 @@ const ResultPage = () => {
                                     <Center p={10}>
                                         {retryFlag ? (
                                             <Text>
-                                                시간이 걸립니다 잠시후에 다시 시도 부탁드립니다
+                                                시간이 걸립니다 잠시후에 다시
+                                                시도 부탁드립니다
                                             </Text>
                                         ) : (
                                             <Spinner size={"xl"} />
@@ -135,7 +140,9 @@ const ResultPage = () => {
                                         <object
                                             width={"100%"}
                                             height={"1200px"}
-                                            data={URL.createObjectURL(content as Blob)}
+                                            data={URL.createObjectURL(
+                                                content as Blob
+                                            )}
                                             type={content.type}
                                         ></object>
                                     ) : (
@@ -144,7 +151,9 @@ const ResultPage = () => {
                                                 <CiWarning />
                                             </Icon>
 
-                                            <Heading>파일을 찾을 수 없습니다.</Heading>
+                                            <Heading>
+                                                파일을 찾을 수 없습니다.
+                                            </Heading>
                                         </Center>
                                     )}
                                 </AnimationBox>
@@ -164,7 +173,11 @@ const ResultPage = () => {
                         handleDownload();
                     }}
                 >
-                    {!isDownload ? <LuDownload size="30px" /> : <Spinner size="md" />}
+                    {!isDownload ? (
+                        <LuDownload size="30px" />
+                    ) : (
+                        <Spinner size="md" />
+                    )}
                 </IconButton>
             </Box>
         </>
